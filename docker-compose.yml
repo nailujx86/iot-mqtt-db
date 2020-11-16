@@ -1,0 +1,29 @@
+version: '3.2'
+services:
+    postgres:
+        image: 'abuckenhofer/columnarpostgresql'
+        ports: 
+            - '5432:5432'
+        environment:
+            POSTGRES_PASSWORD: 'najaeinpasswort'
+            PGDATA: /var/lib/postgresql/database
+        volumes:
+            - ./data/postgres:/var/lib/postgresql/
+    uebung2:
+        depends_on:
+            - postgres
+        build:
+            context: .
+            dockerfile: Uebung2.dockerfile
+        environment: 
+            WAIT_HOSTS: postgres:5432
+            WAIT_HOSTS_TIMEOUT: 60
+    uebung3:
+        depends_on: 
+            - postgres
+        build:
+            context: .
+            dockerfile: Uebung3.dockerfile
+        environment: 
+            WAIT_HOSTS: postgres:5432
+            WAIT_HOSTS_TIMEOUT: 60
